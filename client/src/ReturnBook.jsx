@@ -16,8 +16,15 @@ function ReturnBook() {
   };
 
   const [formData, setFormData] = useState({
-    bookId: "", title: "", author: "", price: "",
-    studentId: "", studentName: "", date: "",
+    bookId: "",
+    title: "",
+    author: "",
+    price: "",
+    studentId: "",
+    studentName: "",
+    course: "",
+    address: "",
+    date: "",
   });
 
   const [returnList, setReturnList] = useState([]);
@@ -26,7 +33,7 @@ function ReturnBook() {
 
   const getValue = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const getAllReturnedBooks = async () => {
@@ -50,12 +57,35 @@ function ReturnBook() {
     }
   };
 
-  useEffect(() => { getAllReturnedBooks(); }, []);
+  useEffect(() => {
+    getAllReturnedBooks();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { bookId, title, author, price, studentId, studentName, date } = formData;
-    if (!bookId || !title || !author || !price || !studentId || !studentName || !date) {
+    const {
+      bookId,
+      title,
+      author,
+      price,
+      studentId,
+      studentName,
+      course,
+      address,
+      date,
+    } = formData;
+
+    if (
+      !bookId ||
+      !title ||
+      !author ||
+      !price ||
+      !studentId ||
+      !studentName ||
+      !course ||
+      !address ||
+      !date
+    ) {
       toast.error("Please fill all the details");
       return;
     }
@@ -63,7 +93,14 @@ function ReturnBook() {
     try {
       if (isEditing) {
         await axios.put(`http://localhost:5000/bookreturn/${editId}`, {
-          title, author, price, studentId, studentName, date
+          title,
+          author,
+          price,
+          studentId,
+          studentName,
+          course,
+          address,
+          date,
         });
         toast.success("Updated successfully");
         setIsEditing(false);
@@ -74,8 +111,15 @@ function ReturnBook() {
       }
 
       setFormData({
-        bookId: "", title: "", author: "", price: "",
-        studentId: "", studentName: "", date: "",
+        bookId: "",
+        title: "",
+        author: "",
+        price: "",
+        studentId: "",
+        studentName: "",
+        course: "",
+        address: "",
+        date: "",
       });
 
       getAllReturnedBooks();
@@ -93,6 +137,8 @@ function ReturnBook() {
       price: item.price,
       studentId: item.studentId,
       studentName: item.studentName,
+      course: item.course || "",
+      address: item.address || "",
       date: item.date,
     });
     setIsEditing(true);
@@ -102,24 +148,110 @@ function ReturnBook() {
   return (
     <>
       <ToastContainer />
-      <div style={backgroundStyle} className="d-flex justify-content-center align-items-center flex-wrap">
+      <div
+        style={backgroundStyle}
+        className="d-flex justify-content-center align-items-center flex-wrap"
+      >
         {/* Form Section */}
-        <div className="bg-light text-dark rounded-4 p-4 m-4" style={{ width: "500px", backgroundColor: "rgba(255,255,255,0.85)" }}>
-          <h1 className="mb-4 text-center">{isEditing ? "Edit Return Info" : "Return Book"}</h1>
+        <div
+          className="bg-light text-dark rounded-4 p-4 m-4"
+          style={{ width: "500px", backgroundColor: "rgba(255,255,255,0.85)" }}
+        >
+          <h1 className="mb-4 text-center">
+            {isEditing ? "Edit Return Info" : "Return Book"}
+          </h1>
           <form onSubmit={handleSubmit}>
-            {["bookId", "title", "author", "price", "studentId", "studentName", "date"].map((field, i) => (
-              <div className="mb-3" key={i}>
-                <label>{field.replace(/([A-Z])/g, " $1").toUpperCase()}:</label>
-                <input
-                  className="form-control"
-                  type={field === "price" || field.includes("Id") ? "number" : field === "date" ? "date" : "text"}
-                  name={field}
-                  value={formData[field]}
-                  onChange={getValue}
-                  disabled={field === "bookId" && isEditing}
-                />
-              </div>
-            ))}
+            <div className="mb-3">
+              <label>Book ID:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="bookId"
+                value={formData.bookId}
+                onChange={getValue}
+                disabled={isEditing}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Title:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={getValue}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Author:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="author"
+                value={formData.author}
+                onChange={getValue}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Price:</label>
+              <input
+                className="form-control"
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={getValue}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Student ID:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="studentId"
+                value={formData.studentId}
+                onChange={getValue}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Student Name:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="studentName"
+                value={formData.studentName}
+                onChange={getValue}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Course:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="course"
+                value={formData.course}
+                onChange={getValue}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Address:</label>
+              <input
+                className="form-control"
+                type="text"
+                name="address"
+                value={formData.address}
+                onChange={getValue}
+              />
+            </div>
+            <div className="mb-3">
+              <label>Date:</label>
+              <input
+                className="form-control"
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={getValue}
+              />
+            </div>
             <button type="submit" className="btn btn-success w-100">
               {isEditing ? "Update Return" : "Submit"}
             </button>
@@ -127,7 +259,10 @@ function ReturnBook() {
         </div>
 
         {/* Table Section */}
-        <div className="bg-light text-dark rounded-4 p-4 m-4" style={{ width: "1000px", backgroundColor: "rgba(255,255,255,0.85)" }}>
+        <div
+          className="bg-light text-dark rounded-4 p-4 m-4"
+          style={{ width: "1000px", backgroundColor: "rgba(255,255,255,0.85)" }}
+        >
           <h4 className="mb-3">Returned Books</h4>
           <table className="table table-striped">
             <thead>
@@ -139,27 +274,49 @@ function ReturnBook() {
                 <th>Price</th>
                 <th>Student ID</th>
                 <th>Student Name</th>
+                <th>Course</th>
+                <th>Address</th>
                 <th>Date</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
             </thead>
             <tbody>
-              {returnList.length > 0 ? returnList.map((item, index) => (
-                <tr key={item._id}>
-                  <td>{index + 1}</td>
-                  <td>{item.bookId}</td>
-                  <td>{item.title}</td>
-                  <td>{item.author}</td>
-                  <td>{item.price}</td>
-                  <td>{item.studentId}</td>
-                  <td>{item.studentName}</td>
-                  <td>{item.date}</td>
-                  <td><button className="btn btn-warning btn-sm" onClick={() => handleEdit(item)}>Edit</button></td>
-                  <td><button className="btn btn-danger btn-sm" onClick={() => Deleterow(item._id)}>Delete</button></td>
+              {returnList.length > 0 ? (
+                returnList.map((item, index) => (
+                  <tr key={item._id}>
+                    <td>{index + 1}</td>
+                    <td>{item.bookId}</td>
+                    <td>{item.title}</td>
+                    <td>{item.author}</td>
+                    <td>{item.price}</td>
+                    <td>{item.studentId}</td>
+                    <td>{item.studentName}</td>
+                    <td>{item.course}</td>
+                    <td>{item.address}</td>
+                    <td>{item.date}</td>
+                    <td>
+                      <button
+                        className="btn btn-warning btn-sm"
+                        onClick={() => handleEdit(item)}
+                      >
+                        Edit
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => Deleterow(item._id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="12">No records found</td>
                 </tr>
-              )) : (
-                <tr><td colSpan="10">No records found</td></tr>
               )}
             </tbody>
           </table>

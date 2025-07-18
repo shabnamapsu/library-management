@@ -3,10 +3,30 @@ import BookReturnmodel from "../models/BookReturnmodel.js";
 // 📥 Create or Return Book
 export const ReturnBook = async (req, res) => {
   try {
-    const { bookId, title, author, price, studentId, studentName, date } = req.body;
+    const {
+      bookId,
+      title,
+      author,
+      price,
+      studentId,
+      studentName,
+      course,
+      address,
+      date
+    } = req.body;
 
     // Validation
-    if (!bookId || !title || !author || !price || !studentId || !studentName || !date) {
+    if (
+      !bookId ||
+      !title ||
+      !author ||
+      !price ||
+      !studentId ||
+      !studentName ||
+      !course ||
+      !address ||
+      !date
+    ) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -27,6 +47,8 @@ export const ReturnBook = async (req, res) => {
       price,
       studentId,
       studentName,
+      course,
+      address,
       date,
     });
 
@@ -69,11 +91,29 @@ export const deleteReturnedBook = async (req, res) => {
 export const updateReturnedBook = async (req, res) => {
   try {
     const id = req.params.id;
-    const { title, author, price, studentId, studentName, date } = req.body;
+    const {
+      title,
+      author,
+      price,
+      studentId,
+      studentName,
+      course,
+      address,
+      date
+    } = req.body;
 
     const updated = await BookReturnmodel.findByIdAndUpdate(
       id,
-      { title, author, price, studentId, studentName, date },
+      {
+        title,
+        author,
+        price,
+        studentId,
+        studentName,
+        course,
+        address,
+        date,
+      },
       { new: true, runValidators: true }
     );
 

@@ -9,8 +9,11 @@ import {
 const router = express.Router();
 
 router.post("/bookreturn", ReturnBook);
+
 router.get("/bookreturn", getAllReturnedBooks);
+
 router.delete("/bookreturn/:id", deleteReturnedBook);
+
 router.put("/bookreturn/:id", updateReturnedBook);
 
 export default router;

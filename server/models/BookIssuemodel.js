@@ -7,6 +7,7 @@ const BookIssueSchema = new mongoose.Schema({
   price: String,
   studentId: String,
   studentName: String,
+  course: String,      
   date: String
 });
 

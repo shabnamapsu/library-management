@@ -3,10 +3,10 @@ import BookIssuemodel from "../models/BookIssuemodel.js";
 // 📥 Create or Issue Book
 export const BookIssue = async (req, res) => {
   try {
-    const { bookId, title, author, price, studentId, studentName, date } = req.body;
+    const { bookId, title, author, price, studentId, studentName, course, date } = req.body;
 
     // Validation
-    if (!bookId || !title || !author || !price || !studentId || !studentName || !date) {
+    if (!bookId || !title || !author || !price || !studentId || !studentName || !course || !date) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -29,6 +29,7 @@ export const BookIssue = async (req, res) => {
       price,
       studentId,
       studentName,
+      course,   // ✅ Added course
       date,
     });
 
@@ -71,11 +72,11 @@ export const deleteIssuedBook = async (req, res) => {
 export const updateIssuedBook = async (req, res) => {
   try {
     const id = req.params.id;
-    const { title, author, price, studentId, studentName, date } = req.body;
+    const { title, author, price, studentId, studentName, course, date } = req.body;
 
     const updated = await BookIssuemodel.findByIdAndUpdate(
       id,
-      { title, author, price, studentId, studentName, date },
+      { title, author, price, studentId, studentName, course, date },  // ✅ Include course
       { new: true }
     );
 

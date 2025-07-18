@@ -23,6 +23,7 @@ function BookIssue() {
     price: "",
     studentId: "",
     studentName: "",
+    course: "",       // ✅ Added course field
     date: "",
   });
 
@@ -62,9 +63,9 @@ function BookIssue() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { bookId, title, author, price, studentId, studentName, date } = formData;
+    const { bookId, title, author, price, studentId, studentName, course, date } = formData;
 
-    if (!bookId || !title || !author || !price || !studentId || !studentName || !date) {
+    if (!bookId || !title || !author || !price || !studentId || !studentName || !course || !date) {
       toast.error("Please fill all the details!");
       return;
     }
@@ -72,7 +73,7 @@ function BookIssue() {
     try {
       if (isEditing) {
         await axios.put(`http://localhost:5000/bookissue/${editId}`, {
-          title, author, price, studentId, studentName, date
+          title, author, price, studentId, studentName, course, date
         });
         toast.success("Book issue updated successfully");
         setIsEditing(false);
@@ -89,6 +90,7 @@ function BookIssue() {
         price: "",
         studentId: "",
         studentName: "",
+        course: "",      // ✅ Reset course
         date: "",
       });
 
@@ -108,6 +110,7 @@ function BookIssue() {
       price: item.price,
       studentId: item.studentId,
       studentName: item.studentName,
+      course: item.course,   // ✅ Include course
       date: item.date,
     });
     setIsEditing(true);
@@ -147,6 +150,10 @@ function BookIssue() {
               <input className="form-control" type="text" name="studentName" value={formData.studentName} onChange={getValue} />
             </div>
             <div className="mb-3">
+              <label>Course:</label>
+              <input className="form-control" type="text" name="course" value={formData.course} onChange={getValue} />
+            </div>
+            <div className="mb-3">
               <label>Date:</label>
               <input className="form-control" type="date" name="date" value={formData.date} onChange={getValue} />
             </div>
@@ -169,6 +176,7 @@ function BookIssue() {
                 <th>Price</th>
                 <th>Student ID</th>
                 <th>Student Name</th>
+                <th>Course</th> {/* ✅ New column */}
                 <th>Date</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -185,6 +193,7 @@ function BookIssue() {
                     <td>{item.price}</td>
                     <td>{item.studentId}</td>
                     <td>{item.studentName}</td>
+                    <td>{item.course}</td> {/* ✅ Show course */}
                     <td>{item.date}</td>
                     <td>
                       <button className="btn btn-warning btn-sm" onClick={() => handleEdit(item)}>Edit</button>
@@ -196,7 +205,7 @@ function BookIssue() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="10">No issued books found.</td>
+                  <td colSpan="11">No issued books found.</td>
                 </tr>
               )}
             </tbody>
