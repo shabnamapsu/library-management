@@ -30,7 +30,7 @@ function Signup() {
     }
 
     axios
-      .post("http://localhost:5000/signup", {
+      .post("https://library-management-1-8b8f.onrender.com/api/signup", {
         username,
         phone,
         email,

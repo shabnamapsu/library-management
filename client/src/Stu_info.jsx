@@ -39,7 +39,7 @@ function Stu_info() {
 
   const getAllStudents = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/studentinfo");
+      const res = await axios.get("https://library-management-1-8b8f.onrender.com/api/studentinfo");
       if (res.status === 200) {
         setStudentList(res.data);
       }
@@ -50,7 +50,7 @@ function Stu_info() {
 
   const Deleterow = async (delid) => {
     try {
-      const res = await axios.delete(`http://localhost:5000/studentinfo/${delid}`);
+      const res = await axios.delete(`https://library-management-1-8b8f.onrender.com/api/studentinfo/${delid}`);
       if (res.status === 200) {
         toast.success("Student deleted successfully");
         getAllStudents();
@@ -75,7 +75,7 @@ function Stu_info() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/studentinfo/${editId}`, {
+        await axios.put(`https://library-management-1-8b8f.onrender.com/api/studentinfo/${editId}`, {
           stuName,
           birthdate,
           gender,
@@ -86,7 +86,7 @@ function Stu_info() {
         setIsEditing(false);
         setEditId(null);
       } else {
-        await axios.post("http://localhost:5000/studentinfo", formData);
+        await axios.post("https://library-management-1-8b8f.onrender.com/api/studentinfo", formData);
         toast.success("Student saved successfully");
       }
 

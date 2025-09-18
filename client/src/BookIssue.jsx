@@ -38,7 +38,7 @@ function BookIssue() {
 
   const getAllIssuedBooks = async () => {
     try {
-      const res = await axios.get("http:/api/localhost:5000/bookissue");
+      const res = await axios.get("https://library-management-1-8b8f.onrender.com/api/bookissue");
       if (res.status === 200) setIssueList(res.data);
     } catch (err) {
       toast.error("Failed to fetch issued books");
@@ -47,7 +47,7 @@ function BookIssue() {
 
   const Deleterow = async (id) => {
     try {
-      const res = await axios.delete(`http:/api/localhost:5000/bookissue/${id}`);
+      const res = await axios.delete(`https://library-management-1-8b8f.onrender.com/api/bookissue/${id}`);
       if (res.status === 200) {
         toast.success("Issued record deleted successfully");
         getAllIssuedBooks();
@@ -72,14 +72,14 @@ function BookIssue() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/bookissue/${editId}`, {
+        await axios.put(`https://library-management-1-8b8f.onrender.com/api/bookissue/${editId}`, {
           title, author, price, studentId, studentName, course, date
         });
         toast.success("Book issue updated successfully");
         setIsEditing(false);
         setEditId(null);
       } else {
-        await axios.post("http://localhost:5000/bookissue", formData);
+        await axios.post("https://library-management-1-8b8f.onrender.com/api/bookissue", formData);
         toast.success("Book issued successfully");
       }
 

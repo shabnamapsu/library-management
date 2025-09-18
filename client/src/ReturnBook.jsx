@@ -38,7 +38,7 @@ function ReturnBook() {
 
   const getAllReturnedBooks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/bookreturn");
+      const res = await axios.get("https://library-management-1-8b8f.onrender.com/bookreturn");
       if (res.status === 200) setReturnList(res.data);
     } catch (err) {
       toast.error("Failed to fetch return list");
@@ -47,7 +47,7 @@ function ReturnBook() {
 
   const Deleterow = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:5000/bookreturn/${id}`);
+      const res = await axios.delete(`https://library-management-1-8b8f.onrender.com/bookreturn/${id}`);
       if (res.status === 200) {
         toast.success("Return record deleted");
         getAllReturnedBooks();
@@ -92,7 +92,7 @@ function ReturnBook() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/bookreturn/${editId}`, {
+        await axios.put(`https://library-management-1-8b8f.onrender.com/bookreturn/${editId}`, {
           title,
           author,
           price,
@@ -106,7 +106,7 @@ function ReturnBook() {
         setIsEditing(false);
         setEditId(null);
       } else {
-        await axios.post("http://localhost:5000/bookreturn", formData);
+        await axios.post("https://library-management-1-8b8f.onrender.com/bookreturn", formData);
         toast.success("Returned successfully");
       }
 
