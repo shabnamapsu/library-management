@@ -49,11 +49,12 @@ app.use("/api", BookIssueroute);
 app.use("/api", BookReturnRoute);
 
 // ✅ Serve frontend (Vite build)
-app.use(express.static(path.join(__dirname, "client", "dist")));
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+  res.sendFile(path.resolve(__dirname, "../client/dist/index.html"));
 });
+
 
 // ✅ Start Server
 app.listen(PORT, () => {
