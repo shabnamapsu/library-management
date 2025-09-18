@@ -26,7 +26,7 @@ function Login() {
     }
 
     axios
-      .post("http://localhost:5000/login", { username,  password })
+      .post("https:api//localhost:5000/login", { username,  password })
       .then((res) => {
         console.log("User created:", res.data);
         navigate("/mainpage");
@@ -40,9 +40,9 @@ function Login() {
   return (
     <>
       <div style={backgroundStyle} className="d-flex flex-column align-items-center justify-content-center">
-        <h2 className="mb-4">Signup Form</h2>
+        <h2 className="mb-4">login Form</h2>
 
-        <div className="d-flex flex-column align-items-center rounded-4 bg-dark bg-opacity-75 w-50 m-4 p-4 text-white">
+        <div className="d-flex flex-column align-items-center rounded-4 bg-dark bg-opacity-75 w-25 m-4 p-4 text-white">
           <div className="mb-3 w-100">
             <label>Username</label>
             <input

@@ -5,8 +5,7 @@ const { Schema } = mongoose;
 const userLoginSchema = new Schema({
   username: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   password: {
     type: String,

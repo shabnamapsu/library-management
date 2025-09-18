@@ -38,7 +38,7 @@ function BookIssue() {
 
   const getAllIssuedBooks = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/bookissue");
+      const res = await axios.get("http:/api/localhost:5000/bookissue");
       if (res.status === 200) setIssueList(res.data);
     } catch (err) {
       toast.error("Failed to fetch issued books");
@@ -47,7 +47,7 @@ function BookIssue() {
 
   const Deleterow = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:5000/bookissue/${id}`);
+      const res = await axios.delete(`http:/api/localhost:5000/bookissue/${id}`);
       if (res.status === 200) {
         toast.success("Issued record deleted successfully");
         getAllIssuedBooks();
