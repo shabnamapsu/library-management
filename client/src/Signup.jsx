@@ -1,161 +1,87 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import Login from "./Login"; // ✅ सही import
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import api from "../api"; // ✅ axios instance
 
 function Signup() {
   const navigate = useNavigate();
 
-  const backgroundStyle = {
-    backgroundImage:
-      "url('/images/vecteezy_ai-generated-bookshelves-with-warm-lighting-filled-with_38511391.jpeg')",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    height: "100vh",
-    color: "white",
+  const [formData, setFormData] = useState({
+    username: "",
+    phone: "",
+    email: "",
+    password: ""
+  });
+
+  const [showLogin, setShowLogin] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const [username, setUsername] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const handleSubmit = async () => {
+    const { username, phone, email, password } = formData;
 
-  const [showLogin, setShowLogin] = useState(false); // ✅ toggle state
-
-  const handleSubmit = () => {
     if (!username || !phone || !email || !password) {
-      alert("Please fill in all details!");
+      toast.error("Please fill all details!");
       return;
     }
 
-    axios
-      .post("https://library-management-1-8b8f.onrender.com/api/signup", {
-        username,
-        phone,
-        email,
-        password,
-      })
-      .then((res) => {
-        console.log("User created:", res.data);
-        setShowLogin(true); // ✅ Signup के बाद Login दिखाना
-      })
-      .catch((err) => {
-        console.error("Signup error:", err);
-        alert("Signup failed");
-      });
+    try {
+      const res = await api.post("/signup", { username, phone, email, password });
+      toast.success(res.data.message || "User created successfully!");
+      setShowLogin(true); // ✅ Show login toggle after signup
+    } catch (err) {
+      if (err.response && err.response.status === 409) {
+        toast.error(err.response.data.message || "User/email/phone already exists!");
+      } else {
+        toast.error("Signup failed!");
+      }
+    }
   };
 
   return (
     <>
-      {showLogin ? ( // ✅ सही तरीका if/else का
-        <div style={backgroundStyle} className="d-flex flex-column align-items-center justify-content-center">
-        <h2 className="mb-4">login Form</h2>
-
-        <div className="d-flex flex-column align-items-center rounded-4 bg-dark bg-opacity-75 w-25 m-4 p-4 text-white">
-          <div className="mb-3 w-100">
-            <label>Username</label>
-            <input
-              className="form-control"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-3 w-100">
-            <label>Password</label>
-            <input
-              className="form-control"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <div className="w-100">
-            <button
-              type="button"
-              className="btn btn-primary mb-3 w-100"
-              onClick={handleSubmit}
-            >
-              login
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary w-100"
-              onClick={() => navigate("/login")}
-            >
-            create signup 
-            </button>
-          </div>
+      <ToastContainer />
+      {showLogin ? (
+        <div>
+          <h2>Login Form</h2>
+          <button onClick={() => navigate("/login")}>Go to Login</button>
         </div>
-      </div>
       ) : (
-        <div
-          style={backgroundStyle}
-          className="d-flex flex-column align-items-center justify-content-center"
-        >
-          <h2 className="mb-4">Signup Form</h2>
-
-          <div className="d-flex flex-column align-items-center rounded-4 bg-dark bg-opacity-75 w-50 m-4 p-4 text-white">
-            <div className="mb-3 w-100">
-              <label>Username</label>
-              <input
-                className="form-control"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-
-            <div className="mb-3 w-100">
-              <label>Phone No.</label>
-              <input
-                className="form-control"
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
-            </div>
-
-            <div className="mb-3 w-100">
-              <label>Email</label>
-              <input
-                className="form-control"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div className="mb-3 w-100">
-              <label>Password</label>
-              <input
-                className="form-control"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-
-            <div className="w-100">
-              <button
-                type="button"
-                className="btn btn-primary mb-3 w-100"
-                onClick={handleSubmit}
-              >
-                Submit
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary w-100"
-                onClick={() => setShowLogin(true)} // ✅ Login दिखाने के लिए
-              >
-                Login
-              </button>
-            </div>
-          </div>
+        <div>
+          <h2>Signup Form</h2>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+          />
+          <input
+            type="tel"
+            name="phone"
+            placeholder="Phone"
+            value={formData.phone}
+            onChange={handleChange}
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <button onClick={handleSubmit}>Signup</button>
         </div>
       )}
     </>

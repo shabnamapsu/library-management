@@ -1,84 +1,42 @@
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import api from "../api";
 
 function Login() {
   const navigate = useNavigate();
 
-  // ✅ Corrected image path — no "public/" here
-  const backgroundStyle = {
-    backgroundImage: "url('/images/vecteezy_ai-generated-bookshelves-with-warm-lighting-filled-with_38511391.jpeg')",
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    height: "100vh",
-    color: "white"
-  };
-
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(""); // backend me username/email check ho raha ho, use us hisaab se change kar sakte ho
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {
-    if (!username ||  !password) {
-      alert("Please fill in all details!");
+  const handleSubmit = async () => {
+    if (!username || !password) {
+      toast.error("Please fill all details!");
       return;
     }
 
-    axios
-      .post("https://library-management-1-8b8f.onrender.com/api/login", { username,  password })
-      .then((res) => {
-        console.log("User created:", res.data);
-        navigate("/mainpage");
-      })
-      .catch((err) => {
-        console.error("Signup error:", err);
-        alert("Signup failed");
-      });
+    try {
+      const res = await api.post("/login", { username, password });
+      toast.success(res.data.message || "Login successful!");
+      console.log("Login data:", res.data);
+      navigate("/mainpage"); // Login ke baad mainpage
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Login failed!");
+      console.error("Login error:", err.response || err.message);
+    }
   };
 
   return (
     <>
-      <div style={backgroundStyle} className="d-flex flex-column align-items-center justify-content-center">
-        <h2 className="mb-4">login Form</h2>
-
-        <div className="d-flex flex-column align-items-center rounded-4 bg-dark bg-opacity-75 w-25 m-4 p-4 text-white">
-          <div className="mb-3 w-100">
-            <label>Username</label>
-            <input
-              className="form-control"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-
-          <div className="mb-3 w-100">
-            <label>Password</label>
-            <input
-              className="form-control"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <div className="w-100">
-            <button
-              type="button"
-              className="btn btn-primary mb-3 w-100"
-              onClick={handleSubmit}
-            >
-              login
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary w-100"
-              onClick={() => navigate("/login")}
-            >
-            create signup 
-            </button>
-          </div>
+      <ToastContainer />
+      <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
+        <h2>Login Form</h2>
+        <div className="d-flex flex-column w-25">
+          <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} className="form-control mb-2" />
+          <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} className="form-control mb-2" />
+          <button onClick={handleSubmit} className="btn btn-primary">Login</button>
+          <button onClick={() => navigate("/signup")} className="btn btn-secondary mt-2">Go to Signup</button>
         </div>
       </div>
     </>

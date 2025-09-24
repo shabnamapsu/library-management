@@ -8,6 +8,7 @@ import ReturnBook from './ReturnBook';
 import Signup from './Signup';
 import Stu_info from './Stu_info';
 import Homep from './Homep';
+// import Auth from './Auth';
 // import Allinfo from './Allinfo';Homep
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/bookdetail" element={< Addbook/>} />
          <Route path="/bookissue" element={< BookIssue/>} />
         <Route path="/returnbook"  element={<ReturnBook/>}/>
+        {/* <Route path="/" element={<Auth/>}/> */}
         {/* <Route path='/allinformation' element={<Allinfo/>}/> */}
       </Routes>
     </BrowserRouter> 
