@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import api from "../api"; // ✅ axios instance
+import api from "./api.jsx"; // ✅ axios instance
 
 function Signup() {
   const navigate = useNavigate();
