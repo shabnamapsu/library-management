@@ -2,12 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-"scripts": {
-  "dev": "nodemon server/index.js",                        
-  "build": "npm install && npm install --prefix client && npm run build --prefix client",
-  "start": "nodemon server/index.js"                          
-},
-
+  "scripts": {
+    "dev": "nodemon server/index.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client",
+    "start": "nodemon server/index.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -15,7 +14,8 @@
   "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
-    "cors": "^2.8.5",
+    "bootstrap": "^5.3.8",
+    "cors": "^2.8.6",
     "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "mongoose": "^8.18.1"

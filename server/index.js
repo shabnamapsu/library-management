@@ -13,6 +13,8 @@ import StudentRoute from "./routing/StudentRoute.js";
 import BookdetailRoute from "./routing/BookdetailRoute.js";
 import BookIssueroute from "./routing/BookIssueroute.js";
 import BookReturnRoute from "./routing/BookReturnRoute.js";
+import Searchbookbyid  from "./routing/Searchbookbyid.js";
+import Searchstudentbyid from "./routing/Searchstudentbyid.js"
 
 dotenv.config();
 
@@ -25,6 +27,7 @@ const PORT = process.env.PORT || 5000;
 
 // ✅ Middleware
 app.use(cors());
+
 app.use(express.json());
 
 // ✅ MongoDB Connection
@@ -47,6 +50,8 @@ app.use("/api", StudentRoute);
 app.use("/api", BookdetailRoute);
 app.use("/api", BookIssueroute);
 app.use("/api", BookReturnRoute);
+app.use("/api", Searchbookbyid);
+app.use("/api", Searchstudentbyid);
 
 // ✅ Serve frontend (Vite build)
 app.use(express.static(path.join(__dirname, "../client/dist")));
