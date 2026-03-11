@@ -44,7 +44,7 @@ function Stu_info() {
   const getAllStudents = async () => {
   try {
     const res = await axios.get(
-      "http://localhost:5000/api/studentinfo"
+      "https://library-management-5-8mp8.onrender.com/api/studentinfo"
     );
 
     console.log("API Response:", res);     // पूरा response
@@ -63,7 +63,7 @@ function Stu_info() {
   // ✅ Delete Student
   const Deleterow = async (delid) => {
     try {
-      const res = await axios.delete(`http://localhost:5000/api/studentinfo/${delid}`)
+      const res = await axios.delete(`https://library-management-5-8mp8.onrender.com/api/studentinfo/${delid}`)
 
       if (res.status === 200) {
         toast.success("Student deleted successfully");
@@ -98,7 +98,7 @@ function Stu_info() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/studentinfo/${editId}`,
+        await axios.put(`https://library-management-5-8mp8.onrender.com/api/studentinfo/${editId}`,
           {
             stuName,
             birthdate,
@@ -113,7 +113,7 @@ function Stu_info() {
         setEditId(null);
       } else {
         await axios.post(
-          "http://localhost:5000/api/studentinfo",
+          "https://library-management-5-8mp8.onrender.com/api/studentinfo",
           formData
         );
 

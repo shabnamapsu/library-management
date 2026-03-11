@@ -72,14 +72,14 @@ function BookIssue() {
 
     try {
       if (isEditing) {
-        await axios.put(`http://localhost:5000/api/bookissue/${editId}`, {
+        await axios.put(`https://library-management-5-8mp8.onrender.com/api/bookissue/${editId}`, {
           title, author, price, studentId, studentName, course, date
         });
         toast.success("Book issue updated successfully");
         setIsEditing(false);
         setEditId(null);
       } else {
-        await axios.post("http://localhost:5000/api/bookissue", formData);
+        await axios.post("https://library-management-5-8mp8.onrender.com/api/bookissue", formData);
         toast.success("Book issued successfully");
       }
 

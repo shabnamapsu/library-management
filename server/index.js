@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ["http://localhost:5173"],
+  origin: ["https://library-management-5-8mp8.onrender.com"],
   credentials: true
 }));
 app.use(express.json());
@@ -60,10 +60,6 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 // fallback route
 app.use((req, res) => {
   res.status(404).send("Route not found");
-});
-
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
 });
 
 app.listen(PORT, () => {
