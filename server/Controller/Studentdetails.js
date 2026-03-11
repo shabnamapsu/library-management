@@ -1,81 +1,66 @@
 import StudentinfoModel from "../models/Studentinfomodel.js";
 
-// 📄 Get All Students
+// GET ALL
 export const getAllStudents = async (req, res) => {
   try {
     const students = await StudentinfoModel.find();
     res.status(200).json(students);
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch students", error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
-// 🗑️ Delete Student
-export const deleteStudent = async (req, res) => {
-  try {
-    const studentId = req.params.id;
-    const result = await StudentinfoModel.deleteOne({ _id: studentId });
-
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ message: "Student not found" });
-    }
-
-    res.status(200).json({ message: "Student deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Failed to delete student", error: error.message });
-  }
-};
-
-// ➕ Add New Student
+// ADD STUDENT
 export const Studentinfo = async (req, res) => {
   try {
     const { studentId, stuName, birthdate, gender, course, address } = req.body;
 
-    if (!studentId?.trim() || !stuName?.trim() || !birthdate || !gender || !course?.trim() || !address?.trim()) {
-      return res.status(400).json({ message: "All fields are required and cannot be empty" });
+    if (!studentId || !stuName || !birthdate || !gender || !course || !address) {
+      return res.status(400).json({ message: "All fields required" });
     }
 
-    const existingUser = await StudentinfoModel.findOne({ studentId, stuName });
-    if (existingUser) {
-      return res.status(409).json({ message: "User already exists" });
+    const exist = await StudentinfoModel.findOne({ studentId });
+
+    if (exist) {
+      return res.status(409).json({ message: "Student already exists" });
     }
 
-    const newUser = new StudentinfoModel({
-      studentId,
-      stuName,
-      birthdate,
-      gender,
-      course,
-      address,
-    });
+    const student = new StudentinfoModel(req.body);
 
-    await newUser.save();
-    res.status(201).json({ message: "User created successfully" });
+    await student.save();
 
-  } catch (err) {
-    console.error("Signup error:", err);
-    res.status(500).json({ error: "Signup failed", details: err.message });
+    res.status(201).json({ message: "Student created successfully" });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 };
 
-// ✏️ Update Student
+// DELETE
+export const deleteStudent = async (req, res) => {
+  try {
+    await StudentinfoModel.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({ message: "Deleted successfully" });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// UPDATE
 export const updateStudent = async (req, res) => {
   try {
-    const studentId = req.params.id;
-    const { stuName, birthdate, gender, course, address } = req.body;
 
-    const updatedStudent = await StudentinfoModel.findByIdAndUpdate(
-      studentId,
-      { stuName, birthdate, gender, course, address },
+    const updated = await StudentinfoModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
       { new: true }
     );
 
-    if (!updatedStudent) {
-      return res.status(404).json({ message: "Student not found" });
-    }
+    res.status(200).json(updated);
 
-    res.status(200).json({ message: "Student updated successfully", updatedStudent });
   } catch (error) {
-    res.status(500).json({ message: "Failed to update student", error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };

@@ -37,7 +37,7 @@ function Addbook() {
 
   const getAllBooks = async () => {
     try {
-      const res = await axios.get("https://library-management-1-8b8f.onrender.com/api/bookdetail");
+      const res = await axios.get("http://localhost:5000/api/bookdetail");
       if (res.status === 200) {
         setBookList(res.data);
       }
@@ -48,7 +48,7 @@ function Addbook() {
 
   const Deleterow = async (delid) => {
     try {
-      const res = await axios.delete(`https://library-management-1-8b8f.onrender.com/api/bookdetail/${delid}`);
+      const res = await axios.delete(`http://localhost:5000/api/bookdetail/${delid}`);
       if (res.status === 200) {
         toast.success("Book deleted successfully");
         getAllBooks();
@@ -73,7 +73,7 @@ function Addbook() {
 
     try {
       if (isEditing) {
-        await axios.put(`https://library-management-1-8b8f.onrender.com/api/bookdetail/${editId}`, {
+        await axios.put(`http://localhost:5000/api/bookdetail/${editId}`, {
           title,
           author,
           price,
@@ -82,7 +82,7 @@ function Addbook() {
         setIsEditing(false);
         setEditId(null);
       } else {
-        await axios.post("https://library-management-1-8b8f.onrender.com/api/bookdetail", formData);
+        await axios.post("http://localhost:5000/api/bookdetail", formData);
         toast.success("Book saved successfully");
       }
 

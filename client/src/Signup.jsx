@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import api from "./api.jsx"; // ✅ axios instance
+import "bootstrap/dist/css/bootstrap.min.css";
+import api from "./api";
 
 function Signup() {
   const navigate = useNavigate();
@@ -11,80 +12,133 @@ function Signup() {
     username: "",
     phone: "",
     email: "",
-    password: ""
+    password: "",
   });
-
-  const [showLogin, setShowLogin] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     const { username, phone, email, password } = formData;
 
     if (!username || !phone || !email || !password) {
-      toast.error("Please fill all details!");
+      toast.error("Please fill all fields");
       return;
     }
 
     try {
-      const res = await api.post("/signup", { username, phone, email, password });
-      toast.success(res.data.message || "User created successfully!");
-      setShowLogin(true); // ✅ Show login toggle after signup
-    } catch (err) {
-      if (err.response && err.response.status === 409) {
-        toast.error(err.response.data.message || "User/email/phone already exists!");
-      } else {
-        toast.error("Signup failed!");
-      }
+      const res = await api.post("/signup", formData);
+
+      toast.success(res.data.message || "Signup successful");
+
+      setFormData({
+        username: "",
+        phone: "",
+        email: "",
+        password: "",
+      });
+
+      setTimeout(() => {
+        navigate("/login");
+      }, 1500);
+
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Signup failed");
     }
   };
 
   return (
-    <>
+    <div className="container mt-5">
       <ToastContainer />
-      {showLogin ? (
-        <div>
-          <h2>Login Form</h2>
-          <button onClick={() => navigate("/login")}>Go to Login</button>
+
+      <div className="row justify-content-center">
+        <div className="col-md-5">
+
+          <div className="card shadow">
+            <div className="card-body">
+
+              <h3 className="text-center mb-4">Signup</h3>
+
+              <form onSubmit={handleSubmit}>
+
+                <div className="mb-3">
+                  <label className="form-label">Username</label>
+                  <input
+                    type="text"
+                    name="username"
+                    className="form-control"
+                    placeholder="Enter username"
+                    value={formData.username}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label">Phone</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    className="form-control"
+                    placeholder="Enter phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    className="form-control"
+                    placeholder="Enter email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="mb-3">
+                  <label className="form-label">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    className="form-control"
+                    placeholder="Enter password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <button type="submit" className="btn btn-primary w-100">
+                  Signup
+                </button>
+
+                <p className="text-center mt-3">
+                  Already have account?
+                  <span
+                    style={{ color: "blue", cursor: "pointer" }}
+                    onClick={() => navigate("/login")}
+                  >
+                    {" "}Login
+                  </span>
+                </p>
+
+              </form>
+
+            </div>
+          </div>
+
         </div>
-      ) : (
-        <div>
-          <h2>Signup Form</h2>
-          <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Phone"
-            value={formData.phone}
-            onChange={handleChange}
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <button onClick={handleSubmit}>Signup</button>
-        </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 }
 

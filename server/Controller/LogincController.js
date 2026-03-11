@@ -1,30 +1,48 @@
-
-import UserloginModel from "../models/Loginmodel.js";
+import UserSignModel from "../models/Sinupmodel.js";
 import bcrypt from "bcryptjs";
-
 
 export const Login = async (req, res) => {
   try {
-    console.log("Received signup request:", req.body);
-
     const { username, password } = req.body;
 
-    const existingUser = await  UserloginModel .findOne({ username });
-    if (existingUser) {
-      return res.status(409).json({ message: "User already exists" });
+    // check empty fields
+    if (!username || !password) {
+      return res.status(400).json({
+        message: "Username and password are required"
+      });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new  UserloginModel ({
-      username,
-      password: hashedPassword,
+    // find user
+    const user = await UserSignModel.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found"
+      });
+    }
+
+    // compare password
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        message: "Invalid password"
+      });
+    }
+
+    // success
+    res.status(200).json({
+      message: "Login successful",
+      user: {
+        username: user.username,
+        email: user.email
+      }
     });
 
-    await newUser.save();
-
-    res.status(201).json({ message: "User created successfully" });
-  } catch (err) {
-    console.error("Signup error:", err.message);
-    res.status(500).json({ error: "Signup failed", details: err.message });
+  } catch (error) {
+    res.status(500).json({
+      message: "Login failed",
+      error: error.message
+    });
   }
 };

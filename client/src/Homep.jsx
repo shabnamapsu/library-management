@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 function Homep() {
-
   const [searchId, setSearchId] = useState("");
   const [searchType, setSearchType] = useState("student");
 
@@ -18,11 +17,11 @@ function Homep() {
 
       if (searchType === "student") {
         res = await fetch(
-          `https://library-management-1-8b8f.onrender.com/api/studentinfo/search/${searchId}`
+          `http://localhost:5000/api/studentinfo/search/${searchId}`
         );
       } else {
         res = await fetch(
-          `https://library-management-1-8b8f.onrender.com/api/bookreturn/search/${searchId}`
+          `http://localhost:5000/api/bookreturn/search/${searchId}`
         );
       }
 
@@ -44,19 +43,19 @@ function Homep() {
   };
 
   const backgroundStyle = {
-    backgroundImage: "url('/images/vecteezy_ai-generated-bookshelves-with-warm-lighting-filled-with_38511391.jpeg')",
+    backgroundImage:
+      "url('/images/vecteezy_ai-generated-bookshelves-with-warm-lighting-filled-with_38511391.jpeg')",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
     height: "100vh",
-    color: "white"
+    color: "white",
   };
 
   return (
     <div style={backgroundStyle}>
       <nav className="navbar navbar-expand-lg bg-body-tertiary w-100">
         <div className="container-fluid">
-
           <div className="collapse navbar-collapse">
 
             <a className="navbar-brand" href="studentinfo">
@@ -64,18 +63,29 @@ function Homep() {
             </a>
 
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+
               <li className="nav-item">
-                <a className="nav-link" href="bookdetail">Book details</a>
+                <a className="nav-link" href="bookdetail">
+                  Book details
+                </a>
               </li>
+
               <li className="nav-item">
-                <a className="nav-link" href="bookissue">BOOK-Issue</a>
+                <a className="nav-link" href="bookissue">
+                  BOOK-Issue
+                </a>
               </li>
+
               <li className="nav-item">
-                <a className="nav-link" href="returnbook">BOOK-Return</a>
+                <a className="nav-link" href="returnbook">
+                  BOOK-Return
+                </a>
               </li>
+
             </ul>
 
             <form className="d-flex" onSubmit={handleSearch}>
+
               <select
                 className="form-select me-2"
                 value={searchType}
@@ -96,6 +106,7 @@ function Homep() {
               <button className="btn btn-outline-success" type="submit">
                 Search
               </button>
+
             </form>
 
           </div>
@@ -106,6 +117,7 @@ function Homep() {
         <h1>Welcome MCA LIBRARY</h1>
         <h2>This Library From APSU MCA Department</h2>
       </div>
+
     </div>
   );
 }

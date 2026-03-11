@@ -1,38 +1,35 @@
 import mongoose from "mongoose";
 
-const StudentSchema = new mongoose.Schema({
+const { Schema } = mongoose;
 
+const Searchstudentbyid = new Schema({
   studentId: {
     type: String,
     required: true,
     unique: true
   },
-
   stuName: {
     type: String,
     required: true
   },
-
   birthdate: {
-    type: Date,
+    type: String,
     required: true
   },
-
   gender: {
     type: String,
     required: true
   },
-
   course: {
     type: String,
     required: true
   },
-
   address: {
     type: String,
     required: true
   }
-
 });
 
-export default mongoose.model("studentinfo", StudentSchema);
+const StudentinfoModel = mongoose.model("StudentInfo", Searchstudentbyid);
+
+export default StudentinfoModel;
