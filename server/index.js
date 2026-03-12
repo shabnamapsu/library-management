@@ -59,9 +59,8 @@ app.use("/api", Searchstudentbyid);
 // Serve React frontend
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
-
-// React Router Fix (VERY IMPORTANT)
-app.get("/.*/", (req, res) => {
+// React Router fallback
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 
