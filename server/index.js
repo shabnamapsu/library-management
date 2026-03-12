@@ -28,6 +28,7 @@ app.use(cors({
   origin: ["https://library-management-5-8mp8.onrender.com"],
   credentials: true
 }));
+
 app.use(express.json());
 
 // MongoDB connection
@@ -43,6 +44,7 @@ const connectDB = async () => {
 
 connectDB();
 
+
 // API routes
 app.use("/api", SignupRoute);
 app.use("/api", LoginRoute);
@@ -53,15 +55,17 @@ app.use("/api", BookReturnRoute);
 app.use("/api", Searchbookbyid);
 app.use("/api", Searchstudentbyid);
 
-// Serve frontend
-// Serve frontend
+
+// Serve React frontend
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
-// fallback route
-app.use((req, res) => {
-  res.status(404).send("Route not found");
+
+// React Router Fix (VERY IMPORTANT)
+app.get("/./", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 
+
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
