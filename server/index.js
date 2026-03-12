@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: ["https://library-management-5-8mp8.onrender.com"],
+  origin: ["https://library-management-project-1-0zma.onrender.com"],
   credentials: true
 }));
 

@@ -17,11 +17,11 @@ function Homep() {
 
       if (searchType === "student") {
         res = await fetch(
-          `https://library-management-5-8mp8.onrender.com/api/studentinfo/search/${searchId}`
+          `https://library-management-project-1-0zma.onrender.com/api/studentinfo/search/${searchId}`
         );
       } else {
         res = await fetch(
-          `https://library-management-5-8mp8.onrender.com/api/bookreturn/search/${searchId}`
+          `https://library-management-project-1-0zma.onrender.com/api/bookreturn/search/${searchId}`
         );
       }
 

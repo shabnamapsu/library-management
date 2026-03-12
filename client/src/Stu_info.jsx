@@ -98,7 +98,7 @@ function Stu_info() {
 
     try {
       if (isEditing) {
-        await axios.put(`https://library-management-5-8mp8.onrender.com/api/studentinfo/${editId}`,
+        await axios.put(`https://library-management-project-1-0zma.onrender.com/api/studentinfo/${editId}`,
           {
             stuName,
             birthdate,
@@ -113,7 +113,7 @@ function Stu_info() {
         setEditId(null);
       } else {
         await axios.post(
-          "https://library-management-5-8mp8.onrender.com/api/studentinfo",
+          "https://library-management-project-1-0zma.onrender.com/studentinfo",
           formData
         );
 
