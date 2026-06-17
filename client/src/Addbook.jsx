@@ -73,7 +73,7 @@ function Addbook() {
 
     try {
       if (isEditing) {
-        await axios.put(`https://library-management-project-1-0zma.onrender.com/api/bookdetail/${editId}`, {
+        await axios.put(`https://library-management-cwtw.onrender.com/api/bookdetail/${editId}`, {
           title,
           author,
           price,
@@ -82,7 +82,7 @@ function Addbook() {
         setIsEditing(false);
         setEditId(null);
       } else {
-        await axios.post("https://library-management-project-1-0zma.onrender.com/api/bookdetail", formData);
+        await axios.post("https://library-management-cwtw.onrender.com/api/bookdetail", formData);
         toast.success("Book saved successfully");
       }
 
