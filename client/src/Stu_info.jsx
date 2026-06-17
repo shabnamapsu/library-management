@@ -169,7 +169,7 @@ function Stu_info() {
 
         <div
           className="bg-light text-dark rounded-4 p-4 m-4"
-          style={{ width: "500px", backgroundColor: "rgba(255,255,255,0.85)" }}
+          style={{ width: "900px", backgroundColor: "rgba(255,255,255,0.85)" }}
         >
 
           <h1 className="mb-4 text-center">

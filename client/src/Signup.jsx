@@ -62,19 +62,19 @@ function Signup() {
 
       <div
         style={backgroundStyle}
-        className="d-flex justify-content-center align-items-center"
+        className="d-flex justify-content-center align-items-center w-full"
       >
         <div
-          className="bg-light text-dark rounded-4 p-4 shadow"
+          className="bg-white text-dark rounded-4 p-4 shadow"
           style={{
-            width: "500px",
+            width: "900px",
             backgroundColor: "rgba(255,255,255,0.85)",
           }}
         >
-          <h2 className="text-center mb-4">Signup Form</h2>
+          <h2 className="text-center mb-4 ">Signup Form</h2>
 
           <form onSubmit={handleSubmit}>
-            <div className="mb-3">
+            <div className="mb-3 w-[500px]">
               <label>Username</label>
               <input
                 type="text"
